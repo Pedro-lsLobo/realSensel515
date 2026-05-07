@@ -1,1 +1,15 @@
-
+services:
+  realsense:
+    build: .
+    image: realsense-l515-sdk-jetson
+    runtime: nvidia                  # Habilita acesso à GPU via NVIDIA Container Runtime
+    network_mode: host
+    privileged: false
+    devices:
+      - /dev/bus/usb:/dev/bus/usb    # Passa câmera RealSense via USB
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - DISPLAY=${DISPLAY}
+      - NVIDIA_VISIBLE_DEVICES=all   # Expõe todas as GPUs ao container
+      - NVIDIA_DRIVER_CAPABILITIES=all
