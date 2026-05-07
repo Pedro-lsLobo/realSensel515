@@ -1,0 +1,13 @@
+# docker-compose.yml
+services:
+  realsense:
+    build: .
+    image: realsense-l515-sdk
+    network_mode: host
+    privileged: false
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - DISPLAY=${DISPLAY}
