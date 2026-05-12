@@ -26,10 +26,14 @@ RUN git checkout v2.54.2
 RUN mkdir build && cd build && \
     cmake .. \
     -DFORCE_RSUSB_BACKEND=ON \
-    -DBUILD_EXAMPLES=true \
-    -DBUILD_GRAPHICAL_EXAMPLES=true \
+    -DBUILD_EXAMPLES=false \
+    -DBUILD_GRAPHICAL_EXAMPLES=false \
     -DCMAKE_BUILD_TYPE=Release && \
-    make -j4 && \
+    make -j$(nproc) && \
     make install
+
+RUN cp /opt/librealsense/config/99-realsense-libusb.rules /etc/udev/rules.d/ && \
+    udevadm control --reload-rules && \
+    udevadm trigger
 
 CMD ["/bin/bash"]
